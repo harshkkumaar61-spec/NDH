@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NDH Weather | Advanced Futuristic Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div class="animated-background">
+        <canvas id="particleCanvas"></canvas>
+        <div class="floating-elements">
+            <div class="floating-element el-1"></div>
+            <div class="floating-element el-2"></div>
+            <div class="floating-element el-3"></div>
+            <div class="floating-element el-4"></div>
+        </div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">NDH WEATHER</span>
+                    <span class="logo-sub">FUTURISTIC DASHBOARD</span>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search city or location...">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="user-controls">
+                    <button class="control-btn" id="locationBtn" title="Get My Location">
+                        <i class="fas fa-crosshairs"></i>
+                    </button>
+                    <button class="control-btn" id="themeToggle">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button class="control-btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <div class="weather-card main-card">
+                <div class="card-header">
+                    <div class="location-info">
+                        <h1 class="location" id="currentLocation">
+                            <i class="fas fa-location-dot"></i>
+                            Loading Location...
+                        </h1>
+                        <div class="time-date" id="currentTime">
+                            Loading Time...
+                        </div>
+                    </div>
+                    <div class="weather-alert" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Weather Alert</span>
+                    </div>
+                </div>
+
+                <div class="weather-main">
+                    <div class="temperature-section">
+                        <div class="current-temp" id="currentTemp">--°</div>
+                        <div class="temp-variation">
+                            <span class="high-temp">H:--°</span>
+                            <span class="low-temp">L:--°</span>
+                        </div>
+                    </div>
+                    <div class="weather-visual">
+                        <div class="weather-icon" id="weatherIcon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="weather-desc" id="weatherDesc">
+                            LOADING DATA...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-wind"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="windSpeed">-- km/h</div>
+                            <div class="stat-label">Wind Speed</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-tint"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="humidity">--%</div>
+                            <div class="stat-label">Humidity</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-gauge-high"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="pressure">-- hPa</div>
+                            <div class="stat-label">Pressure</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="visibility">-- km</div>
+                            <div class="stat-label">Visibility</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forecast-section">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-week"></i>
+                    7-DAY FORECAST
+                </h2>
+                <div class="forecast-cards" id="forecastContainer">
+                    </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card sun-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-sun"></i> Sunrise & Sunset</h3>
+                    </div>
+                    <div class="sun-times">
+                        <div class="sun-time">
+                            <div class="time-icon sunrise"><i class="fas fa-sun"></i></div>
+                            <div class="time-info">
+                                <div class="time-value" id="sunriseTime">--:--</div>
+                                <div class="time-label">Sunrise</div>
+                            </div>
+                        </div>
+                        <div class="sun-time">
+                            <div class="time-icon sunset"><i class="fas fa-moon"></i></div>
+                            <div class="time-info">
+                                <div class="time-value" id="sunsetTime">--:--</div>
+                                <div class="time-label">Sunset</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card air-quality">
+                    <div class="card-header">
+                        <h3><i class="fas fa-wind"></i> Air Quality (Simulated)</h3>
+                        <div class="aqi-badge" id="aqiValue">Good</div>
+                    </div>
+                    <div class="aqi-meter">
+                        <div class="meter-bar">
+                            <div class="meter-fill" id="aqiMeter" style="width: 20%"></div>
+                        </div>
+                        <div class="meter-labels">
+                            <span>0</span><span>50</span><span>100</span><span>150</span><span>200+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card precipitation">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cloud-rain"></i> Precipitation</h3>
+                    </div>
+                    <div class="precip-chart">
+                        <div class="precip-bar"><div class="bar-fill" style="height: 10%"></div><div class="bar-label">Now</div></div>
+                        <div class="precip-bar"><div class="bar-fill" style="height: 30%"></div><div class="bar-label">1h</div></div>
+                        <div class="precip-bar"><div class="bar-fill" style="height: 50%"></div><div class="bar-label">2h</div></div>
+                        <div class="precip-bar"><div class="bar-fill" style="height: 20%"></div><div class="bar-label">3h</div></div>
+                    </div>
+                </div>
+
+                <div class="info-card uv-index">
+                    <div class="card-header">
+                        <h3><i class="fas fa-sun"></i> UV Index (Est.)</h3>
+                    </div>
+                    <div class="uv-display">
+                        <div class="uv-value" id="uvIndex">--</div>
+                        <div class="uv-level">Low</div>
+                        <div class="uv-meter">
+                            <div class="uv-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="notification-container" id="notificationContainer"></div>
+    </div>
+
+    <script src="Script.js"></script>
+</body>
+</html>
